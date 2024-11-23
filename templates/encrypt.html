@@ -1,0 +1,13 @@
+{% extends "base.html"%}
+{% block title %}Encryptfy{% endblock %}
+
+{%block content%}
+<form action="#" method="post">
+    <p>Plaintext:</p>
+    <textarea name="plaintext" class="form-control" id="messageBox" rows="3" cols="1" placeholder="Type your message here..."></textarea>
+    <p>Key:</p>
+    <p><input type="text" name="key"/></p>
+    <p><input type="submit" value="ENCRYPT"/></p>
+    <p>Ciphertext: {{cipherText}}</p>
+</form>
+{%endblock%}
