@@ -6,19 +6,24 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>{%block title%} {%endblock%}</title>
 </head>
+<style>
+  .nav-link.active {
+    font-weight: bold;
+  }
+</style>
 <body>
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-        <a class="navbar-brand" href="#">Encryptfy</a>
+        <a class="navbar-brand" href="{{url_for('home')}}">Encryptfy</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
         <div class="collapse navbar-collapse" id="navbarNav">
           <ul class="navbar-nav">
             <li class="nav-item active">
-              <a class="nav-link" href="{{ url_for('encrypt') }}">Encrypt <span class="sr-only">(current)</span></a>
+              <a class="nav-link {{ 'active' if active_page == 'encrypt' else '' }}" href="{{ url_for('encrypt') }}">Encrypt <span class="sr-only">(current)</span></a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="{{ url_for('decrypt') }}">Decrypt</a>
+              <a class="nav-link {{ 'active' if active_page == 'decrypt' else '' }}" href="{{ url_for('decrypt') }}">Decrypt</a>
             </li>
           </ul>
         </div>

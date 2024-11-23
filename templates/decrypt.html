@@ -4,10 +4,11 @@
 {%block content%}
 <form action="#" method="post">
     <p>Ciphertext:</p>
-    <textarea name="ciphertext" class="form-control" id="messageBox" rows="3" cols="1" placeholder="Type your message here..."></textarea>
+    <textarea name="ciphertext" class="form-control" id="messageBox" rows="3" cols="1" placeholder="Type your message here..." style="width: 300px;"></textarea>
     <p>Key:</p>
     <p><input type="text" name="key"/></p>
     <p><input type="submit" value="DECRYPT"/></p>
-    <p>Plaintext: {{plainText}}</p>
+    <p>AES decrypted output:</p>
+    <textarea name="plaintext" class="form-control" id="messageBox" rows="3" cols="1" placeholder="Output ciphertext goes here..." style="width: 300px;">{{plainText}}</textarea>
 </form>
 {%endblock%}

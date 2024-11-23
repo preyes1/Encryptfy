@@ -3,4 +3,58 @@
 
 {%block content%}
 <h1>Home</h1>
+<p>AES-128 encryption/decryption project by Paolo Reyes</p>
+<div style="width: 900px">
+<h2>What is AES?</h2>
+<p>
+    AES stands for Advanced Encryption Standard, it is one of the most widely 
+    used and secure encryption algorithms we have today. It takes plaintext
+    and a key as input. It then takes the plaintext and divides it into 16
+    byte blocks of data. Since we are using AES-128, the algorithm will go
+    through 10 rounds of several operations.
+</p>
+</div>
+<div style="width: 900px">
+    <h2>How does AES work?</h2>
+    <p>
+        <ol>
+            <li>
+                First, AES takes the key and expands it into multiple round keys
+                which are used for the operations in each round
+            </li>
+            <li>
+                The first round key is XORed with the plaintext.
+            </li>
+            <li>
+                After this the 10 rounds start. Each round consists of the following steps: 
+                <ul>
+                    <li>
+                        SubBytes: Each byte in the 16 byte block is substituted with its 
+                        corresponding byte from a table called S-box
+                    </li>
+                    <li>
+                        ShiftRows: It is important to note that the 16 byte blocks are 
+                        turned into a 4x4 matrix. During this step, the rows in the 
+                        matrix are shifted. For example, the first row could shift by one
+                        byte and the next row could shift by 2 bytes.
+                    </li>
+                    <li>
+                        MixColumns: Each column of 4 bytes has a mathematical operation 
+                        performed on it to mix the bytes within the column.
+                        <p><i>ShiftRows and MixColumns are used for diffusion. This ensures
+                            that even if one character is changed in the plaintext, the whole
+                            ciphertext is completely different.
+                        </i></p>
+                    </li>
+                    <li>
+                        AddRoundKey: The round Key is XORed with the data block.
+                    </li>
+                </ul>
+            </li>
+            <li>
+                On the 10th round, the MixColumns step is skipped
+            </li>
+        </ol>
+    </p>
+    </div>
 {%endblock%}
