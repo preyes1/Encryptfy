@@ -2,13 +2,15 @@
 {% block title %}Encryptfy{% endblock %}
 
 {%block content%}
+<h1 style="text-align: center;">Decrypt Message</h1>
+<br>
 <form action="#" method="post">
     <p>Ciphertext:</p>
-    <textarea name="ciphertext" class="form-control" id="messageBox" rows="3" cols="1" placeholder="Type your message here..." style="width: 300px;"></textarea>
+    <textarea name="ciphertext" class="form-control" id="messageBox" rows="3" cols="1" placeholder="Type your message here..."></textarea>
     <p>Key:</p>
     <p><input type="text" name="key"/></p>
     <p><input type="submit" value="DECRYPT"/></p>
     <p>AES decrypted output:</p>
-    <textarea name="plaintext" class="form-control" id="messageBox" rows="3" cols="1" placeholder="Output ciphertext goes here..." style="width: 300px;">{{plainText}}</textarea>
+    <textarea name="plaintext" class="form-control" id="messageBox" rows="3" cols="1" placeholder="Output ciphertext goes here...">{{plainText}}</textarea>
 </form>
 {%endblock%}
