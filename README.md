@@ -18,6 +18,21 @@
 <h2>Program Screenshots:</h2>
 
 <p align="center">
-Landing Page: <br/>
-<img src="https://i.imgur.com/u8DWJac.png" height="80%" width="80%" alt="Landing page"/>
+Encrypt Message Page: <br/>
+<img src="https://i.imgur.com/LwSDge8.png" height="80%" width="80%" alt="Landing page"/>
+<br />
+
+<p align="center">
+Adding input and encrypting the message: <br/>
+<img src="https://i.imgur.com/uru9KIg.png" height="80%" width="80%" alt="Landing page"/>
+<br />
+
+<p align="center">
+Decrypt Message Page: <br/>
+<img src="https://i.imgur.com/Jkn0exZ.png" height="80%" width="80%" alt="Landing page"/>
+<br />
+
+<p align="center">
+Adding input and decrypting the message: <br/>
+<img src="https://i.imgur.com/X5lUdmN.png" height="80%" width="80%" alt="Landing page"/>
 <br />
