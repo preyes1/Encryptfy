@@ -26,20 +26,20 @@
 
 <p align="center">
 Encrypt Message Page: <br/>
-<img src="https://i.imgur.com/LwSDge8.png" height="80%" width="80%" alt="Landing page"/>
+<img src="https://i.imgur.com/LwSDge8.png" height="80%" width="80%" alt="Encrypt Message Page"/>
 <br />
 
 <p align="center">
 Adding input and encrypting the message: <br/>
-<img src="https://i.imgur.com/uru9KIg.png" height="80%" width="80%" alt="Landing page"/>
+<img src="https://i.imgur.com/uru9KIg.png" height="80%" width="80%" alt="Adding input and encrypting the message"/>
 <br />
 
 <p align="center">
 Decrypt Message Page: <br/>
-<img src="https://i.imgur.com/Jkn0exZ.png" height="80%" width="80%" alt="Landing page"/>
+<img src="https://i.imgur.com/Jkn0exZ.png" height="80%" width="80%" alt="Decrypt Message Page"/>
 <br />
 
 <p align="center">
 Adding input and decrypting the message: <br/>
-<img src="https://i.imgur.com/X5lUdmN.png" height="80%" width="80%" alt="Landing page"/>
+<img src="https://i.imgur.com/X5lUdmN.png" height="80%" width="80%" alt="Adding input and decrypting the message"/>
 <br />
