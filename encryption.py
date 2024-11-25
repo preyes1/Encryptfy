@@ -23,10 +23,7 @@ class Encryptor:
     
     def decrypt(self, cipherText, key):
         iv = cipherText[:AES.block_size]
-        print("aaaa")
-        print(iv)
         cipher = AES.new(key, AES.MODE_CBC, iv)
         plaintext = cipher.decrypt(cipherText[AES.block_size:])
-        print(plaintext.hex())
         # removes the padding added
         return plaintext.rstrip(b"\0")
