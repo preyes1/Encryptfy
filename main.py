@@ -53,7 +53,7 @@ def decrypt():
 @app.route('/encrypt-file', methods=["POST", "GET"])
 def encrypt_file():
     if request.method == "POST": 
-        try:
+        #try:
             # Gets file from HTML Form
             file = request.files.get("file")
             # Gets key from user
@@ -71,7 +71,7 @@ def encrypt_file():
                 fo.write(enc_content)
             # Return the encrypted file for download
             return send_file("./static/uploads/" + file_name + ".enc", as_attachment=True)
-        except:
+        #except:
             print("error")
             return render_template('encrypt_file.html')
     return render_template('encrypt_file.html')
