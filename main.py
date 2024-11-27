@@ -36,13 +36,17 @@ def decrypt():
         if (cipherText and key):
             key = repeat_key(key)
             enc = Encryptor(key)
-            if len(cipherText) % 16 == 0:
-                # Have to convert cipherText back into a bytes object
-                plainText = enc.decrypt(bytes.fromhex(cipherText), key.encode())
-                # Reverts plainText back from a bytes object to a String object
-                return render_template('decrypt.html', plainText=plainText.decode(), active_page="decrypt")
-            else:
-                return render_template('decrypt.html', plainText="Invalid ciphertext length, must be a multiple of 16", active_page="decrypt")
+            try:
+                if len(cipherText) % 16 == 0:
+                    # Have to convert cipherText back into a bytes object
+                    plainText = enc.decrypt(bytes.fromhex(cipherText), key.encode())
+                    # Reverts plainText back from a bytes object to a String object
+                    return render_template('decrypt.html', plainText=plainText.decode(), active_page="decrypt")
+                else:
+                    return render_template('decrypt.html', plainText="Invalid ciphertext length, must be a multiple of 16", active_page="decrypt")
+            except:
+                return render_template('decrypt.html', plainText="Invalid input", active_page="decrypt")
+            
     return render_template('decrypt.html', active_page="decrypt")
 
 if __name__ == "__main__":
