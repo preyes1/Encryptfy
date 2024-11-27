@@ -67,10 +67,10 @@ def encrypt_file():
             file_name = file.filename
     
             enc_content = enc.encrypt(file_content, key.encode())
-            with open(UPLOAD_FOLDER + file_name +".enc", 'wb') as fo:
+            with open(file_name +".enc", 'wb') as fo:
                 fo.write(enc_content)
             # Return the encrypted file for download
-            return send_file(UPLOAD_FOLDER + file_name + ".enc", as_attachment=True)
+            return send_file(file_name + ".enc", as_attachment=True)
         #except:
             print("error")
             return render_template('encrypt_file.html')
