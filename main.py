@@ -3,7 +3,7 @@ from encryption import *
 from methods import repeat_key
 
 app = Flask(__name__)
-UPLOAD_FOLDER = 'static/uploads/'
+UPLOAD_FOLDER = '/opt/render/project/src/static/uploads/'
 
 @app.route('/', methods=["POST", "GET"])
 def home():
@@ -67,10 +67,10 @@ def encrypt_file():
             file_name = file.filename
     
             enc_content = enc.encrypt(file_content, key.encode())
-            with open("./static/uploads/" + file_name +".enc", 'wb') as fo:
+            with open(UPLOAD_FOLDER + file_name +".enc", 'wb') as fo:
                 fo.write(enc_content)
             # Return the encrypted file for download
-            return send_file("./static/uploads/" + file_name + ".enc", as_attachment=True)
+            return send_file(UPLOAD_FOLDER + file_name + ".enc", as_attachment=True)
         #except:
             print("error")
             return render_template('encrypt_file.html')
