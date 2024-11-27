@@ -1,9 +1,9 @@
 from flask import Flask, render_template, request, send_file
 from encryption import *
 from methods import repeat_key
+import os
 
 app = Flask(__name__)
-UPLOAD_FOLDER = '/opt/render/project/src/static/uploads/'
 
 @app.route('/', methods=["POST", "GET"])
 def home():
@@ -53,7 +53,7 @@ def decrypt():
 @app.route('/encrypt-file', methods=["POST", "GET"])
 def encrypt_file():
     if request.method == "POST": 
-        #try:
+        try:
             # Gets file from HTML Form
             file = request.files.get("file")
             # Gets key from user
@@ -62,19 +62,49 @@ def encrypt_file():
             key = repeat_key(key)
 
             enc = Encryptor(key)
-            # have to encode plaintext and key to turn them into bytes
             file_content = file.read()
             file_name = file.filename
     
             enc_content = enc.encrypt(file_content, key.encode())
             with open(file_name +".enc", 'wb') as fo:
                 fo.write(enc_content)
-            # Return the encrypted file for download
-            return send_file(file_name + ".enc", as_attachment=True)
-        #except:
+            # Return the encrypted file for download and deletes it
+            response = send_file(file_name + ".enc", as_attachment=True)
+            os.remove(file_name + ".enc")
+            return response
+        except:
             print("error")
-            return render_template('encrypt_file.html')
-    return render_template('encrypt_file.html')
+            return render_template('encrypt_file.html', active_page = "encrypt_file")
+    return render_template('encrypt_file.html', active_page = "encrypt_file")
+
+@app.route('/decrypt-file', methods=["POST", "GET"])
+def decrypt_file():
+    if request.method == "POST": 
+        try:
+            # Gets file from HTML Form
+            file = request.files.get("file")
+            # Gets key from user
+            key = request.form["key"]
+            # Ensures key is 16 bytes long
+            key = repeat_key(key)
+
+            enc = Encryptor(key)
+        
+            file_content = file.read()
+            file_name = file.filename
+
+            # Decrypts the content of the file and saves it to a 
+            enc_content = enc.decrypt(file_content, key.encode())
+            with open(file_name[:-4], 'wb') as fo:
+                fo.write(enc_content)
+            # Return the decrypted file for download and delete it
+            response = send_file(file_name[:-4], as_attachment=True)
+            os.remove(file_name[:-4])
+            return response
+        except:
+            print("error")
+            return render_template('decrypt_file.html', active_page = "decrypt_file")
+    return render_template('decrypt_file.html', active_page = "decrypt_file")
 
 if __name__ == "__main__":
     app.run(debug=True)
