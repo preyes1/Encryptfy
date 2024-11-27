@@ -1,8 +1,9 @@
-from flask import Flask, render_template, request
+from flask import Flask, render_template, request, send_file
 from encryption import *
 from methods import repeat_key
 
 app = Flask(__name__)
+UPLOAD_FOLDER = 'static/uploads/'
 
 @app.route('/', methods=["POST", "GET"])
 def home():
@@ -48,6 +49,32 @@ def decrypt():
                 return render_template('decrypt.html', plainText="Invalid input", active_page="decrypt")
             
     return render_template('decrypt.html', active_page="decrypt")
+
+@app.route('/encrypt-file', methods=["POST", "GET"])
+def encrypt_file():
+    if request.method == "POST": 
+        try:
+            # Gets file from HTML Form
+            file = request.files.get("file")
+            # Gets key from user
+            key = request.form["key"]
+            # Ensures key is 16 bytes long
+            key = repeat_key(key)
+
+            enc = Encryptor(key)
+            # have to encode plaintext and key to turn them into bytes
+            file_content = file.read()
+            file_name = file.filename
+    
+            enc_content = enc.encrypt(file_content, key.encode())
+            with open("./static/uploads/" + file_name +".enc", 'wb') as fo:
+                fo.write(enc_content)
+            # Return the encrypted file for download
+            return send_file("./static/uploads/" + file_name + ".enc", as_attachment=True)
+        except:
+            print("error")
+            return render_template('encrypt_file.html')
+    return render_template('encrypt_file.html')
 
 if __name__ == "__main__":
     app.run(debug=True)

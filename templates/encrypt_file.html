@@ -1,0 +1,16 @@
+{% extends "base.html"%}
+{% block title %}Encryptfy{% endblock %}
+
+
+{%block content%}
+
+<label for="myfile">Select a file:</label>
+
+<form action="#" method="post" enctype="multipart/form-data">
+    <input type="file" id="file" name="file"><br>
+    <p>Key (16 bytes): </p>
+    <p><input type="text" name="key"/></p>
+    <p><input type="submit" value="ENCRYPT"/></p>
+    
+</form>
+{%endblock%}
