@@ -7,6 +7,9 @@
     <title>{%block title%} {%endblock%}</title>
 </head>
 <style>
+  *{
+    margin: 0;
+  }
   .nav-link.active {
     font-weight: bold;
   }
@@ -20,8 +23,31 @@
     margin-left: auto;
     margin-right: auto;
   }
+  @media (min-width: 768px) {
+  nav {
+    max-width: 100%; /* Full width for smaller screens */
+  }
+}
+/*
+removing some bootstrap css by overriding it with !important
+*/
+@media (min-width: 576px) {
+    .container {
+         max-width: 100% !important;
+    }
+}
+@media (min-width: 768px) {
+    .col-md-6 {
+        -ms-flex: unset !important;
+        flex: unset !important;
+        max-width: unset !important;
+    }
+}
 </style>
 <body>
+  <div class="container">
+  <div class="row justify-content-center">
+    <div class="col-md-6" style="padding-left: 0; padding-right: 0;">
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
         <a class="navbar-brand {{ 'active' if active_page == 'home' else '' }}" href="{{url_for('home')}}">Encryptfy</a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
@@ -45,6 +71,10 @@
           </ul>
         </div>
       </nav>
+    </div>
+  </div>
+  </div>
+
     {%block content%}
     {%endblock%}
     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>

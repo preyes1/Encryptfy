@@ -73,6 +73,7 @@ def decrypt():
     
         enc = Encryptor(key)
 
+        # Ensures length of cipherText is valid
         if not len(cipherText) % 16 == 0:
             return render_template('decrypt.html', plainText="Invalid ciphertext length, must be a multiple of 16", active_page="decrypt")
         
@@ -88,6 +89,7 @@ def decrypt():
     
     return render_template('decrypt.html', active_page="decrypt")
 
+# Encrypt File Page
 @app.route('/encrypt-file', methods=["POST", "GET"])
 def encrypt_file():
     if request.method == "POST": 
@@ -136,6 +138,7 @@ def encrypt_file():
         
     return render_template('encrypt_file.html', active_page = "encrypt_file")
 
+# Decrypt File Page
 @app.route('/decrypt-file', methods=["POST", "GET"])
 def decrypt_file():
     if request.method == "POST": 

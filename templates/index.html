@@ -1,9 +1,48 @@
 {% extends "base.html"%}
 {% block title %}Encryptfy{% endblock %}
-
 {%block content%}
-<h1>Home</h1>
-<p>AES-128 encryption/decryption project by Paolo Reyes</p>
+<style>
+@keyframes flickerAnimation {
+  0%   { opacity:1; }
+  50%  { opacity:0; }
+  100% { opacity:1; }
+}
+@-o-keyframes flickerAnimation{
+  0%   { opacity:1; }
+  50%  { opacity:0; }
+  100% { opacity:1; }
+}
+@-moz-keyframes flickerAnimation{
+  0%   { opacity:1; }
+  50%  { opacity:0; }
+  100% { opacity:1; }
+}
+@-webkit-keyframes flickerAnimation{
+  0%   { opacity:1; }
+  50%  { opacity:0; }
+  100% { opacity:1; }
+}
+.animate-flicker {
+    animation: flickerAnimation 2s infinite !important;
+    
+}
+a{
+    outline: none;
+    text-decoration: none;
+    color: black;
+}
+a:hover{
+    color: black;
+    text-decoration: none;
+}
+</style>
+
+<div class="d-flex justify-content-center align-items-center" style="height: calc(100vh - 70px);">
+  <h5 class="animate-flicker"><a href="{{url_for('encrypt')}}">Click here to start Encrypting</a></h5>
+</div>
+
+
+<!--<p>AES-128 encryption/decryption project by Paolo Reyes</p>
 <div style="width: 900px">
 <h2>What is AES?</h2>
 <p>
@@ -56,5 +95,5 @@
             </li>
         </ol>
     </p>
-    </div>
+    </div>-->
 {%endblock%}
