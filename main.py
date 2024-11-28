@@ -67,23 +67,24 @@ def decrypt():
         if not cipherText or not key:
             return render_template('decrypt.html', plainText="Please enter ciphertext and key", active_page="decrypt")
         
+        # Retreives salt from the ciphertext
         salt = bytes.fromhex(cipherText[-32:])
         key=derive_key(key, salt)
     
         enc = Encryptor(key)
-        #try:
-            # Ensures cipherText is a multiple of 16
+
         if not len(cipherText) % 16 == 0:
             return render_template('decrypt.html', plainText="Invalid ciphertext length, must be a multiple of 16", active_page="decrypt")
-            
+        
+        # Gives error message if wrong key is put
+        try:
             # Have to convert cipherText back into a bytes object
-        plainText = enc.decrypt(bytes.fromhex(cipherText), key)
+            plainText = enc.decrypt(bytes.fromhex(cipherText), key)
             # Reverts plainText back from a bytes object to a String object
-
-        return render_template('decrypt.html', plainText=plainText.decode(), active_page="decrypt")
+            return render_template('decrypt.html', plainText=plainText.decode(), active_page="decrypt")
                
-        #except:
-            #return render_template('decrypt.html', plainText="Invalid input", active_page="decrypt")
+        except:
+            return render_template('decrypt.html', plainText="Invalid input", active_page="decrypt")
     
     return render_template('decrypt.html', active_page="decrypt")
 
