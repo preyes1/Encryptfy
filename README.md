@@ -10,11 +10,12 @@
 
 <h2>Features</h2>
 
-- Encrypts and decrypts messages with AES-128.
-- If key is too short, it will keep repeating the original key until it reaches 16 bytes.
-- If key is too long, it will take the first 16 bytes of the string.
+- Encrypts and decrypts messages or files with AES-128.
+- Utilized a Key Derivation Function to generate a secure key from a base value.
+- KDF uses salt to ensure uniqueness of each key.
 - Handled test cases such as if user does not enter anything and tries to encrypt/decrypt.
-- <i>Planning to add an encrypt file feature</i>
+- Leveraged the built-in Python testfile library to temporarily stores file before sending to user to download encrypted/decrypted version.
+
 
 <h2>Languages Used</h2>
 
@@ -42,4 +43,14 @@ Decrypt Message Page: <br/>
 <p align="center">
 Adding input and decrypting the message: <br/>
 <img src="https://i.imgur.com/X5lUdmN.png" height="80%" width="80%" alt="Adding input and decrypting the message"/>
+<br />
+
+<p align="center">
+Encrypt File Page: <br/>
+<img src="https://i.imgur.com/LCCWdbl.png" height="80%" width="80%" alt="Encrypt File Page"/>
+<br />
+
+<p align="center">
+Decrypt File Page: <br/>
+<img src="https://i.imgur.com/RIl5glX.png" height="80%" width="80%" alt="Decrypt File Page"/>
 <br />
