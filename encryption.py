@@ -42,7 +42,6 @@ class Encryptor:
         # is the initialization vector
         # This caused a super headache lol
         plaintext = cipher.decrypt(cipherText[AES.block_size:])
-        print("PLAINTEXT: ", plaintext)
 
         # removes the padding added
         return plaintext.rstrip(b"\0")

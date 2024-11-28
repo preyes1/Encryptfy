@@ -120,8 +120,7 @@ def encrypt_file():
             # Encrypts file content and makes a new file .enc
             enc_content = enc.encrypt(file_content, key)
             enc_content = enc_content + salt
-            print(enc_content)
-            print(type(enc_content))
+        
             # Creating temp file so no information is stored
             # mode = wb means it will write bytes
             temp_file = tempfile.NamedTemporaryFile(delete=False, mode='wb')  
@@ -157,7 +156,6 @@ def decrypt_file():
 
             # Reads file content and gets file name
             file_content = file.read()
-            print("FILE_CONTENTTYPE: ", type(file_content))
             file_name = file.filename
 
             # Generates random salt
@@ -173,7 +171,7 @@ def decrypt_file():
             # Decrypts the content of the file and saves it to a 
             # [:-4] removes the .enc extension in the name
             enc_content = enc.decrypt(file_content, key)
-            print(enc_content)
+    
             # Creating temp file so no information is stored
             # mode = wb means it will write bytes
             temp_file = tempfile.NamedTemporaryFile(delete=False, mode='wb')  
