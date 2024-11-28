@@ -1,6 +1,6 @@
 from flask import Flask, render_template, request, send_file, after_this_request
 from encryption import *
-from methods import repeat_key
+from methods import repeat_key, derive_key
 import os
 import tempfile
 
@@ -32,11 +32,18 @@ def encrypt():
         # Ensure the key is 16 characters after processing
         if len(key) != KEY_LENGTH:  
             return render_template('encrypt.html', cipherText="Key must be 16 characters!", active_page="encrypt")
-            
+
+        # Generates random salt
+        salt = os.urandom(16)
+        # Gets derived key from key and salt (KDF)
+        key=derive_key(key, salt)
+
         enc = Encryptor(key)
         # have to encode plaintext and key to turn them into bytes
-        cipherText = enc.encrypt(plaintext.encode(), key.encode())
-        cipherTextHex = cipherText.hex()
+        cipherText = enc.encrypt(plaintext.encode(), key)
+        # Appends salt to the ciphertext so we're able to decrypt
+        # cipherTextHex[-16:] gets the salt
+        cipherTextHex = cipherText.hex() + salt.hex()
             
     return render_template('encrypt.html', cipherText=cipherTextHex, active_page="encrypt")
 
@@ -51,20 +58,25 @@ def decrypt():
         # If statement ensures there is input in both boxes
         if not cipherText or not key:
             return render_template('decrypt.html', plainText="Please enter ciphertext and key", active_page="decrypt")
-        key = repeat_key(key)
+        salt = bytes.fromhex(cipherText[-16:])
+        key=derive_key(key, salt)
+        print(key)
+    
         enc = Encryptor(key)
-        try:
+        #try:
             # Ensures cipherText is a multiple of 16
-            if not len(cipherText) % 16 == 0:
-                return render_template('decrypt.html', plainText="Invalid ciphertext length, must be a multiple of 16", active_page="decrypt")
+        if not len(cipherText) % 16 == 0:
+            return render_template('decrypt.html', plainText="Invalid ciphertext length, must be a multiple of 16", active_page="decrypt")
             
             # Have to convert cipherText back into a bytes object
-            plainText = enc.decrypt(bytes.fromhex(cipherText), key.encode())
+        plainText = enc.decrypt(bytes.fromhex(cipherText), key)
+        print(plainText)
             # Reverts plainText back from a bytes object to a String object
-            return render_template('decrypt.html', plainText=plainText.decode(), active_page="decrypt")
+
+        return render_template('decrypt.html', plainText=plainText, active_page="decrypt")
                
-        except:
-            return render_template('decrypt.html', plainText="Invalid input", active_page="decrypt")
+        #except:
+            #return render_template('decrypt.html', plainText="Invalid input", active_page="decrypt")
     
     return render_template('decrypt.html', active_page="decrypt")
 
@@ -125,7 +137,7 @@ def decrypt_file():
             # Decrypts the content of the file and saves it to a 
             # [:-4] removes the .enc extension in the name
             enc_content = enc.decrypt(file_content, key.encode())
-            
+
             # Creating temp file so no information is stored
             # mode = wb means it will write bytes
             temp_file = tempfile.NamedTemporaryFile(delete=False, mode='wb')  

@@ -1,10 +1,12 @@
 from Cryptodome import Random
 from Cryptodome.Cipher import AES
 from base64 import b64encode
+import os
+
 
 class Encryptor:
     def __init__(self, key):
-        self.key=key
+        self.key = key
 
     # padding method to ensure input data is 16 bytes in length
     # AES.block_size = 16 since AES uses block sizes of 16 bytes
@@ -27,11 +29,4 @@ class Encryptor:
         plaintext = cipher.decrypt(cipherText[AES.block_size:])
         # removes the padding added
         return plaintext.rstrip(b"\0")
-    
-    def encrypt_file(self, file):
-        file_content = file.read()
-        file_name = file.filename
-        enc = self.encrypt(file_content.encode(), self.key)
-        with open("./static/uploads/" + file_name +".enc", 'wb') as fo:
-            fo.write(enc)
         
