@@ -117,7 +117,7 @@ def encrypt_file():
             file_content = file.read()
             file_name = file.filename
 
-            # Encrypts file content and makes a new file .enc
+            # Encrypts file content and appends salt to it
             enc_content = enc.encrypt(file_content, key)
             enc_content = enc_content + salt
         
@@ -158,7 +158,7 @@ def decrypt_file():
             file_content = file.read()
             file_name = file.filename
 
-            # Generates random salt
+            # Retreives salt from ciphertext
             # Its only [-16:] here because it's already in bytes
             # format, [-32:] is only when ciphertext is in
             # hexadecimal
@@ -168,8 +168,7 @@ def decrypt_file():
             key=derive_key(key, salt)
             enc = Encryptor(key)
 
-            # Decrypts the content of the file and saves it to a 
-            # [:-4] removes the .enc extension in the name
+            # Decrypts the content of the file
             enc_content = enc.decrypt(file_content, key)
     
             # Creating temp file so no information is stored
@@ -180,6 +179,7 @@ def decrypt_file():
             temp_file.close()
 
             # Return the encrypted file for download
+            # [:-4] removes the .enc extension in the name
             response = send_file(temp_file.name, as_attachment=True, download_name=file_name[:-4])
             return response
         except:
