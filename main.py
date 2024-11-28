@@ -1,18 +1,21 @@
 from flask import Flask, render_template, request, send_file, after_this_request
 from encryption import *
-from methods import repeat_key, derive_key
+from methods import derive_key
 import os
 import tempfile
 
 app = Flask(__name__)
+
 # Global variables to make code easier to read
 MAX_INPUT_LENGTH = 1000
 KEY_LENGTH = 16
 
+# Default home page, gives info as to what AES is
 @app.route('/', methods=["POST", "GET"])
 def home():
     return render_template('index.html', active_page="home") 
 
+# Encrypt message page
 @app.route('/encrypt', methods=["POST", "GET"])
 def encrypt():
     cipherTextHex=""
@@ -35,18 +38,23 @@ def encrypt():
 
         # Generates random salt
         salt = os.urandom(16)
+
         # Gets derived key from key and salt (KDF)
         key=derive_key(key, salt)
-
         enc = Encryptor(key)
-        # have to encode plaintext and key to turn them into bytes
+
+        # have to encode plaintext 
         cipherText = enc.encrypt(plaintext.encode(), key)
+
         # Appends salt to the ciphertext so we're able to decrypt
-        # cipherTextHex[-16:] gets the salt
         cipherTextHex = cipherText.hex() + salt.hex()
-            
+        """
+                cipherTextHex[-32:] gets the salt since the salt is 16 bytes
+                and each byte is TWO characters
+        """
     return render_template('encrypt.html', cipherText=cipherTextHex, active_page="encrypt")
 
+# Decrypt message page
 @app.route('/decrypt', methods=["POST", "GET"])
 def decrypt():
     plainText=""
@@ -58,9 +66,9 @@ def decrypt():
         # If statement ensures there is input in both boxes
         if not cipherText or not key:
             return render_template('decrypt.html', plainText="Please enter ciphertext and key", active_page="decrypt")
-        salt = bytes.fromhex(cipherText[-16:])
+        
+        salt = bytes.fromhex(cipherText[-32:])
         key=derive_key(key, salt)
-        print(key)
     
         enc = Encryptor(key)
         #try:
@@ -70,10 +78,9 @@ def decrypt():
             
             # Have to convert cipherText back into a bytes object
         plainText = enc.decrypt(bytes.fromhex(cipherText), key)
-        print(plainText)
             # Reverts plainText back from a bytes object to a String object
 
-        return render_template('decrypt.html', plainText=plainText, active_page="decrypt")
+        return render_template('decrypt.html', plainText=plainText.decode(), active_page="decrypt")
                
         #except:
             #return render_template('decrypt.html', plainText="Invalid input", active_page="decrypt")
@@ -96,6 +103,11 @@ def encrypt_file():
             if len(key) != KEY_LENGTH:  
                 return render_template('encrypt_file.html', active_page="encrypt_file")
 
+            # Generates random salt
+            salt = os.urandom(16)
+
+            # Gets derived key from key and salt (KDF)
+            key=derive_key(key, salt)
             enc = Encryptor(key)
 
             # Reads file content and gets file name
@@ -103,7 +115,10 @@ def encrypt_file():
             file_name = file.filename
 
             # Encrypts file content and makes a new file .enc
-            enc_content = enc.encrypt(file_content, key.encode())
+            enc_content = enc.encrypt(file_content, key)
+            enc_content = enc_content + salt
+            print(enc_content)
+            print(type(enc_content))
             # Creating temp file so no information is stored
             # mode = wb means it will write bytes
             temp_file = tempfile.NamedTemporaryFile(delete=False, mode='wb')  
@@ -128,16 +143,33 @@ def decrypt_file():
             file = request.files.get("file")
             key = request.form["key"]
 
-            enc = Encryptor(key)
+            # Returns if file or key is empty
+            if not file or not key:
+                return render_template('encrypt_file.html', active_page = "encrypt_file")
+
+            # Ensures key is 16 bytes long
+            if len(key) != KEY_LENGTH:  
+                return render_template('encrypt_file.html', active_page="encrypt_file")
 
             # Reads file content and gets file name
             file_content = file.read()
+            print("FILE_CONTENTTYPE: ", type(file_content))
             file_name = file.filename
+
+            # Generates random salt
+            # Its only [-16:] here because it's already in bytes
+            # format, [-32:] is only when ciphertext is in
+            # hexadecimal
+            salt = file_content[-16:]
+
+            # Gets derived key from key and salt (KDF)
+            key=derive_key(key, salt)
+            enc = Encryptor(key)
 
             # Decrypts the content of the file and saves it to a 
             # [:-4] removes the .enc extension in the name
-            enc_content = enc.decrypt(file_content, key.encode())
-
+            enc_content = enc.decrypt(file_content, key)
+            print(enc_content)
             # Creating temp file so no information is stored
             # mode = wb means it will write bytes
             temp_file = tempfile.NamedTemporaryFile(delete=False, mode='wb')  
