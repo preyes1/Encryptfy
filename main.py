@@ -44,7 +44,7 @@ def encrypt():
         enc = Encryptor(key)
 
         # have to encode plaintext 
-        cipherText = enc.encrypt(plaintext.encode(), key)
+        cipherText = enc.encrypt(plaintext.encode())
 
         # Appends salt to the ciphertext so we're able to decrypt
         cipherTextHex = cipherText.hex() + salt.hex()
@@ -79,7 +79,7 @@ def decrypt():
     
             enc = Encryptor(key)
             # Have to convert cipherText back into a bytes object
-            plainText = enc.decrypt(bytes.fromhex(cipherText), key)
+            plainText = enc.decrypt(bytes.fromhex(cipherText))
             # Reverts plainText back from a bytes object to a String object
             return render_template('decrypt.html', plainText=plainText.decode(), active_page="decrypt")
                
@@ -117,7 +117,7 @@ def encrypt_file():
             file_name = file.filename
 
             # Encrypts file content and appends salt to it
-            enc_content = enc.encrypt(file_content, key)
+            enc_content = enc.encrypt(file_content)
             enc_content = enc_content + salt
         
             # Creating temp file so no information is stored
@@ -168,7 +168,7 @@ def decrypt_file():
             enc = Encryptor(key)
 
             # Decrypts the content of the file
-            enc_content = enc.decrypt(file_content, key)
+            enc_content = enc.decrypt(file_content)
     
             # Creating temp file so no information is stored
             # mode = wb means it will write bytes
