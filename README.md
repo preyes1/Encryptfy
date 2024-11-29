@@ -1,8 +1,14 @@
-<h1>Encryptfy</h1>
+<h1>Encryptfy - https://encryptfy.onrender.com/</h1>
 
 <h2>Description</h2>
-<b>Encryptfy</b> is an AES-128 encryption and decryption web app. 
-<br />
+<p>💬 Have you ever wanted to send secret messages that only you and someone else could see? 🔐</p>
+
+<p>Introducing <b>Encryptfy</b>, your personal encryption and decryption tool! Whether it’s a message or a file, Encryptfy ensures that your data stays private and secure using AES-128 encryption. With a simple interface and robust security features, it’s never been easier to protect your sensitive information.</p>
+
+<p>Ready to safeguard your secrets? Encryptfy has got you covered!</p>
+
+<p><i>Personal Project made by Paolo Reyes</i></p>
+
 <h2>Skills Learned: </h2>
 
 - <b>Cryptography</b>: Implemented AES-128 encryption and decryption using CBC mode.
